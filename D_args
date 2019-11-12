@@ -1,0 +1,31 @@
+
+FROM centos
+
+LABEL maintainer Ali
+
+LABEL date 20191112
+
+ARG user=application
+
+ARG package
+
+RUN yum -y install $package  unzip
+
+WORKDIR /var/www/html
+
+ENV LINK https://github.com/mdn/beginner-html-site-styled/archive/gh-pages.zip 
+
+
+ADD $LINK  ./code.zip
+
+RUN unzip code.zip && mv beginner-html-site-styled-gh-pages/* .  && echo $LINK >> ./env.html
+
+RUN useradd $user  && chown -R $user:$user /var/www/html
+
+USER $user
+
+RUN rm -rf beginner-html-site-styled-gh-pages code.zip
+
+USER root
+
+CMD apachectl -DFOREGROUND
