@@ -1,0 +1,13 @@
+FROM centos
+
+RUN yum -y install httpd unzip
+
+ENV LINK https://github.com/mdn/beginner-html-site-styled/archive/gh-pages.zip && DEST /var/www/html/code.zip
+
+ENV DOC_ROOT /var/www/html
+
+ADD $LINK  $DEST
+
+RUN cd $DOC_ROOT  && unzip code.zip && mv beginner-html-site-styled-gh-pages/* $DOC_ROOT
+
+CMD apachectl -DFOREGROUND
