@@ -1,0 +1,19 @@
+
+FROM centos
+
+LABEL maintainer Ali
+
+LABEL date 20191112
+
+RUN yum -y install httpd unzip
+
+WORKDIR /var/www/html
+
+ENV LINK https://github.com/mdn/beginner-html-site-styled/archive/gh-pages.zip 
+
+
+ADD $LINK  ./code.zip
+
+RUN unzip code.zip && mv beginner-html-site-styled-gh-pages/* .  && echo $LINK >> ./env.html
+
+CMD apachectl -DFOREGROUND
